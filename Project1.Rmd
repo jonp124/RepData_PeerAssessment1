@@ -1,0 +1,35 @@
+---
+title: "Reproducible Research: Course Project 1"
+author: "Jon P."
+date: "11/13/2019"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Loading and Preprocessing data
+
+The following code serves to load the activity data
+
+```{r}
+activity <- read.csv("activity.csv", header = T)
+activity[,2] <- as.Date(activity$date)
+
+#Setting up Environment
+library(ggplot2)
+library(plyr)
+```
+
+## What is the mean total number of steps taken per day?
+
+We'll start by grouping our data by date, and then plotting the total number of steps per day in a histogram
+
+```{r}
+activity %>% group_by(date) %>% summarise(perDay = sum(steps)) %>%
+  ggplot(aes(perDay)) + geom_histogram(bins = 15) + 
+  ggtitle("Total steps per day") +
+  xlab("Steps Per Day") + ylab("Frequency")
+```
+
